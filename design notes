@@ -1,0 +1,10 @@
+all commands must be published by the player or the ui
+    if you publish from the model then it will get duplicated in a multi-player game
+
+commands are not sent to subscribers that are paused
+    so if a subscriber needs to unpause itself based off a command
+    then it'll be waiting forever
+    best option is to subscribe twice, with the former pausing and unpausing the latter
+
+to avoid complicated situations where the player quits while the commands are halfway through processing
+    only save on idle
