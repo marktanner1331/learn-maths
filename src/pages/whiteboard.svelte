@@ -18,7 +18,8 @@
 	import { ModelController } from "../whiteboard/model-controller";
 	import { Freehand } from "../whiteboard/tools/freehand";
 	import { Line } from "../whiteboard/tools/line";
-    import { Delete } from "../whiteboard/tools/delete";
+	import { Delete } from "../whiteboard/tools/delete";
+	import { Select } from "../whiteboard/tools/select";
 
 	let canvas: HTMLCanvasElement;
 	let container: HTMLElement;
@@ -142,10 +143,27 @@
 				xmlns="http://www.w3.org/2000/svg"
 			>
 				<path
-					d="M 10,28 31.9,4.9 44.4,16.8 22.4,39.9 Z" style="fill:white"
+					d="M 10,28 31.9,4.9 44.4,16.8 22.4,39.9 Z"
+					style="fill:white"
 				/>
+				<path d="M 9.3,28.6 C -0.9,39.3 12,50.8 21.8,40.5" />
+			</svg>
+		</div>
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<div
+			class:selected={currentTool == Select.name}
+			on:click={() => selectTool(Select.name)}
+		>
+			<svg
+				width="50"
+				height="50"
+				viewBox="0 0 50 50"
+				version="1.1"
+				xmlns="http://www.w3.org/2000/svg"
+			>
 				<path
-					d="M 9.3,28.6 C -0.9,39.3 12,50.8 21.8,40.5"
+					d="M 37,13.3 29.6,33.9 16.4,20.7 Z m -25.2,19.5 9,-9.1 5.7,5.7 -9.1,9.1 z"
+					style="fill:white;stroke:none;"
 				/>
 			</svg>
 		</div>

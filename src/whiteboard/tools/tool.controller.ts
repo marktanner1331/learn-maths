@@ -3,6 +3,7 @@ import { type Command, CommandPriority, commandStream, type SelectToolCommand } 
 import { Delete } from "./delete";
 import { Freehand } from "./freehand";
 import { Line } from "./line";
+import { Select } from "./select";
 
 export namespace ToolController {
     type Tool = {
@@ -11,7 +12,7 @@ export namespace ToolController {
         onDeselect():void;
     }
 
-    let tools: Tool[] = [Freehand, Line, Delete];
+    let tools: Tool[] = [Freehand, Line, Delete, Select];
     let currentTool: Tool = undefined;
     let subscription: CommandSubscription;
 

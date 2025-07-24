@@ -27,7 +27,7 @@ export namespace Line {
 		currentPath.strokeWidth = 2;
 		currentPath.add(point);
 		currentPath.add(point);
-
+		
 		paper.view.update();
 
 		paper.view.element.addEventListener("pointermove", onMouseMove);
