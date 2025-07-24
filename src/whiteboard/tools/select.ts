@@ -2,14 +2,13 @@ import * as paper from "paper";
 import { model } from "../model";
 
 export namespace Select {
-	const DRAG_LENGTH_THRESHOLD = 20;
-
 	let lassoPath: paper.Path | null = null;
 	let dragOffset: paper.Point | null = null;
-	let resizeOverlayGroup: paper.Group | null = null;
-	let selectedItemsGroup: paper.Group | null = null;
 
+	let resizeOverlayGroup: paper.Group | null = null;
 	let resizeHandleIndex: number | null = null;
+
+	let selectedItemsGroup: paper.Group | null = null;
 
 	export const name = "Select";
 
@@ -46,6 +45,7 @@ export namespace Select {
 
 			//hide the resize box while dragging
 			resizeOverlayGroup.remove();
+			resizeOverlayGroup = null;
 		} else {
 			lassoPath = new paper.Path({
 				segments: [startPoint],
@@ -114,7 +114,7 @@ export namespace Select {
 			drawSelectionBox();
 		} else {
 			const pathLength = lassoPath.length;
-			if (pathLength <= DRAG_LENGTH_THRESHOLD) {
+			if (pathLength <= 20) {
 				// Considered a tap
 				const lastPoint = lassoPath.lastSegment.point;
 
@@ -187,38 +187,39 @@ export namespace Select {
 	}
 
 	function drawSelectionBox() {
-		if (resizeOverlayGroup) resizeOverlayGroup.remove(); // clear old box
-
-		// get bounds encompassing all selected items
 		const groupBounds = selectedItemsGroup.bounds;
-
-		resizeOverlayGroup = new paper.Group();
-		resizeOverlayGroup.addChild(new paper.Path.Rectangle({
-			rectangle: groupBounds,
-			strokeColor: 'red',
-			dashArray: [4, 2],
-			strokeWidth: 1,
-			fullySelected: false
-		}));
-
-		const size = 8;
-
-		let bounds = resizeOverlayGroup.bounds;
-
 		const corners = [
-			bounds.topLeft,
-			bounds.topRight,
-			bounds.bottomRight,
-			bounds.bottomLeft
+			groupBounds.topLeft,
+			groupBounds.topRight,
+			groupBounds.bottomRight,
+			groupBounds.bottomLeft
 		];
 
-		resizeOverlayGroup.addChildren(corners.map(corner =>
-			new paper.Path.Rectangle({
-				point: corner.subtract(new paper.Point(size / 2, size / 2)),
-				size: new paper.Size(size, size),
-				fillColor: 'white',
-				strokeColor: 'black',
-				strokeWidth: 1
-			})));
+		if (resizeOverlayGroup) {
+			resizeOverlayGroup.children[0].bounds = groupBounds;
+
+			resizeOverlayGroup.children.slice(1).forEach((Item, i) => {
+				Item.position = corners[i]
+			})
+		} else {
+			resizeOverlayGroup = new paper.Group();
+			resizeOverlayGroup.addChild(new paper.Path.Rectangle({
+				rectangle: groupBounds,
+				strokeColor: 'red',
+				dashArray: [4, 2],
+				strokeWidth: 1,
+				fullySelected: false
+			}));
+
+			const size = 8;
+			resizeOverlayGroup.addChildren(corners.map(corner =>
+				new paper.Path.Rectangle({
+					point: corner.subtract(new paper.Point(size / 2, size / 2)),
+					size: new paper.Size(size, size),
+					fillColor: 'white',
+					strokeColor: 'black',
+					strokeWidth: 1
+				})));
+		}
 	}
 }

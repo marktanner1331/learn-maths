@@ -1,0 +1,29 @@
+select tool
+  break drag listeners out into own methods
+
+  if path is selected
+  when hitting delete
+  then selected path should be deleted
+  (instead of switching to the delete tool)
+  
+  listen out for foreground color changes
+  and if items are selected
+  then recolor them too
+  it's a bit of a weird UX, but it's the simplest way of updating colors of existing objects
+  so even if your current color is red, choosing red again with items selected will make them red
+  simple, i kinda like it
+
+undo tool
+
+settings
+  line width
+    if line width is changed while items are selected, that should update width?
+    yes, that would be nice
+  grid
+    grid size
+  delete all
+
+two finger scrolling?
+  no side scrolling or zooming?
+    that would be simplest
+    and we are going for simple
